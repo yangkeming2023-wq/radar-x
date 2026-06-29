@@ -30,8 +30,8 @@ client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
 col1, col2, col3 = st.columns(3)
 with col1: gender = st.selectbox("性别", ["男", "女"])
 with col2: 
-    birth_date = st.date_input("出生日期", value=date(2008, 9, 24), min_value=date(1900, 1, 1), format="YYYY/MM/DD")
-with col3: birth_time = st.text_input("出生时间", "22:16")
+    birth_date = st.date_input("出生日期", value=date(2000, 1, 1), min_value=date(1900, 1, 1), format="YYYY/MM/DD")
+with col3: birth_time = st.text_input("出生时间", "00:00")
 
 if st.button("执行全景推演"):
     if birth_date:
