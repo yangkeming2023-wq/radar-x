@@ -30,11 +30,18 @@ with col2:
 with col3: birth_time = st.text_input("出生时间", "00:00")
 
 if st.button("执行全景推演"):
-    if api_key and birth_date:
+    # 将你截图中的那一整块（从 if api_key 到底部的 client = ...）替换为：
+
+# 直接读取云端配置，不再需要 if 判断是否存在 KEY
+api_key = st.secrets["DEEPSEEK_API_KEY"]
+client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+
+# 逻辑判断：只要点击了按钮，就开始执行推演
+if st.button("执行全景推演"):
+    if birth_date:
         age = calculate_age(birth_date)
         chart_table = get_bazi_chart_data(birth_date, birth_time)
-        
-        client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+        # 剩下的 st.markdown 逻辑保持不变...
         
         st.markdown("### 📊 八字排盘数据")
         st.write(chart_table)
