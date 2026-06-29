@@ -26,8 +26,8 @@ api_key = st.text_input("DeepSeek API Key", type="password")
 col1, col2, col3 = st.columns(3)
 with col1: gender = st.selectbox("性别", ["男", "女"])
 with col2: 
-    birth_date = st.date_input("出生日期", value=date(0008, 0, 00), min_value=date(1900, 1, 1), format="YYYY/MM/DD")
-with col3: birth_time = st.text_input("出生时间", "00:00")
+    birth_date = st.date_input("出生日期", value=date(2008, 9, 24), min_value=date(1900, 1, 1), format="YYYY/MM/DD")
+with col3: birth_time = st.text_input("出生时间", "22:16")
 
 if st.button("执行全景推演"):
     if api_key and birth_date:
@@ -79,5 +79,4 @@ if st.button("执行全景推演"):
             
         except Exception as e:
             st.error(f"引擎异常: {e}")
-        
       
