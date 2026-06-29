@@ -1,4 +1,4 @@
 streamlit
 openai
 lunardate
-# 如果你有 bazi-mcp 的本地仓库文件，建议通过 Git 依赖引入
+lunar-python
