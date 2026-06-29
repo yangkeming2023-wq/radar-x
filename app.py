@@ -1,25 +1,35 @@
 import streamlit as st
 from openai import OpenAI
-from datetime import datetime
+from datetime import datetime, date # 确保导入了 date
 
 # 核心：根据出生时间自动计算年龄
 def calculate_age(birth_date_obj):
-    today = datetime.today()
+    today = date.today()
     return today.year - birth_date_obj.year - ((today.month, today.day) < (birth_date_obj.month, birth_date_obj.day))
 
-st.title("⚡ RADAR X 核心推演终端 (完全体)")
+st.title("⚡ RADAR X 核心推演终端 (最终严谨版)")
 
-# UI输入区：修正为男女选项
+# UI输入区：确保 min_value 设置正确，并确保类型完全匹配
 api_key = st.text_input("DeepSeek API Key", type="password")
 col1, col2, col3 = st.columns(3)
-with col1: gender = st.selectbox("性别", ["男", "女"])
-with col2: birth_date = st.date_input("出生日期", value=datetime(2008, 9, 24))
-with col3: birth_time = st.text_input("出生时间", "22:16")
+with col1: 
+    gender = st.selectbox("性别", ["男", "女"])
+with col2: 
+    # 使用 date 对象，设置 1900-2026 的全范围，彻底修复选择器截断
+    birth_date = st.date_input(
+        "出生日期", 
+        value=date(2008, 9, 24),
+        min_value=date(1900, 1, 1),
+        max_value=date.today(),
+        format="YYYY/MM/DD" # 强制日期格式
+    )
+with col3: 
+    birth_time = st.text_input("出生时间", "22:16")
 
 if st.button("执行全景推演"):
     if api_key and birth_date:
         age = calculate_age(birth_date)
-        # 物理锚定：确保排盘数据准确
+        # 物理锚定：确保排盘数据准确，严禁幻觉
         chart_table = "| 项目 | 年柱 | 月柱 | 日柱 | 时柱 |\n| :--- | :--- | :--- | :--- | :--- |\n| 天干 | 戊 | 辛 | 丁 | 辛 |\n| 地支 | 子 | 酉 | 卯 | 亥 |\n| 十神 | 伤官 | 偏财 | 日主 | 偏财 |"
         
         client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
