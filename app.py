@@ -33,15 +33,39 @@ if st.button("执行全景推演"):
     # 将你截图中的那一整块（从 if api_key 到底部的 client = ...）替换为：
 
 # 直接读取云端配置，不再需要 if 判断是否存在 KEY
+# 1. 移出按钮逻辑，放在最外层，确保所有逻辑都能读到 KEY
 api_key = st.secrets["DEEPSEEK_API_KEY"]
 client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
 
-# 逻辑判断：只要点击了按钮，就开始执行推演
+# 2. 按钮执行块，所有执行代码必须缩进 4 个空格
 if st.button("执行全景推演"):
     if birth_date:
         age = calculate_age(birth_date)
         chart_table = get_bazi_chart_data(birth_date, birth_time)
-        # 剩下的 st.markdown 逻辑保持不变...
+        
+        st.markdown("### 📊 八字排盘数据")
+        st.write(chart_table)
+        st.markdown("### 📊 Radar X 核心推演")
+        
+        placeholder = st.empty()
+        full_response = ""
+        
+        try:
+            # 这里的每一行代码都必须比 if 多缩进 4 个空格
+            stream = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[...], # 保持你之前的 Prompt 内容
+                stream=True
+            )
+            
+            for chunk in stream:
+                if chunk.choices[0].delta.content:
+                    full_response += chunk.choices[0].delta.content
+                    placeholder.markdown(full_response + "▌")
+            placeholder.markdown(full_response)
+            
+        except Exception as e:
+            st.error(f"引擎异常: {e}")
         
         st.markdown("### 📊 八字排盘数据")
         st.write(chart_table)
