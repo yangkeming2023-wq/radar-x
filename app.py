@@ -20,7 +20,7 @@ def get_bazi_chart_data(birth_date, time_str):
 | 地支 | {bazi.getYearZhi()} | {bazi.getMonthZhi()} | {bazi.getDayZhi()} | {bazi.getTimeZhi()} |
 """
 
-st.title("⚡ Yang X 便捷推算终端")
+st.title("⚡ Yang km 00 便捷推算终端")
 
 # --- 安全 API 调用逻辑 (从云端读取，不再硬编码) ---
 api_key = st.secrets["DEEPSEEK_API_KEY"]
